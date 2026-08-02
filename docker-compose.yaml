@@ -1,0 +1,92 @@
+version: "3.7"
+services: 
+  # Server 1
+  MskLanSrv1:
+    image: ghcr.io/melkortf/tf2-competitive
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - SERVER_HOSTNAME=[MoscowLAN] Server 1
+      - STV_NAME=[MoscowTV] 1
+      - PORT=27015
+      - CLIENT_PORT=27016
+      - STEAM_PORT=27018
+      - STV_PORT=27020
+    command: "+sv_pure 2 +map cp_badlands +maxplayers 12 +sv_lan 1 +sm_map_download_base http://changeme:8080/maps"
+    volumes:
+      - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
+    network_mode: host
+
+  # Server 2
+  MskLanSrv2:
+    image: ghcr.io/melkortf/tf2-competitive
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - SERVER_HOSTNAME=[MoscowLAN] Server 2
+      - STV_NAME=[MoscowTV] 2
+      - PORT=27025
+      - CLIENT_PORT=27026
+      - STEAM_PORT=27028
+      - STV_PORT=27030
+    command: "+sv_pure 2 +map cp_badlands +maxplayers 12 +sv_lan 1 +sm_map_download_base http://changeme:8080/maps"
+    volumes:
+      - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
+    network_mode: host
+
+  # Server 3
+  MskLanSrv3:
+    image: ghcr.io/melkortf/tf2-competitive
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - SERVER_HOSTNAME=[MoscowLAN] Server 3
+      - STV_NAME=[MoscowTV] 3
+      - PORT=27035
+      - CLIENT_PORT=27036
+      - STEAM_PORT=27038
+      - STV_PORT=27040
+    command: "+sv_pure 2 +map cp_badlands +maxplayers 12 +sv_lan 1 +sm_map_download_base http://changeme:8080/maps"
+    volumes:
+      - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
+    network_mode: host
+
+
+  # MGE Server
+  MskLanMGE:
+    image: ghcr.io/melkortf/tf2-mge
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - SERVER_HOSTNAME=[MoscowLAN] MGE
+      - PORT=27045
+      - CLIENT_PORT=27046
+      - STEAM_PORT=27048
+      - STV_PORT=27050
+    command: "+sv_pure 2 +map mge_training_v8_beta4b +maxplayers 24 +sv_lan 1 +sm_map_download_base http://changeme:8080/maps +mp_timelimit 0"
+    volumes:
+      - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
+    network_mode: host
+
+  # FastDL
+  fastdl:
+    image: nginx:alpine
+    restart: always
+    volumes:
+      - ./fastdl:/usr/share/nginx/html:ro
+    ports:
+      - "8080:80"
+
+  # Mumble 
+  mumble-server:
+    image: mumblevoip/mumble-server:latest
+    container_name: mumble-server
+    hostname: mumble-server
+    restart: on-failure
+    ports:
+      - 64738:64738
+      - 64738:64738/udp
