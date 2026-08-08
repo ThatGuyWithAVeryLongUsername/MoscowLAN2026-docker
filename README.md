@@ -33,4 +33,10 @@
 docker compose up --build -d
 ```
 
+### Остановка
+
+```bash
+docker compose down -v
+```
+
 ### глхф.

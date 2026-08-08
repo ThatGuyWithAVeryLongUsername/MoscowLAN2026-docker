@@ -7,7 +7,7 @@ FROM mumblevoip/mumble-server:v1.5.915
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends sqlite3 && rm -rf /var/lib/apt/lists/*
 
-COPY migration_seed_channels_legacy.sql /app/migration_seed_channels_legacy.sql
+COPY migration_seed_channels.sql /app/migration_seed_channels.sql
 COPY entrypoint-wrapper.sh /app/entrypoint-wrapper.sh
 RUN chmod +x /app/entrypoint-wrapper.sh
 

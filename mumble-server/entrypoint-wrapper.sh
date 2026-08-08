@@ -4,17 +4,14 @@ set -e
 DB_FILE="/data/mumble-server.sqlite"
 INIT_LOG="/tmp/mumble-init.log"
 OFFICIAL_ENTRYPOINT="/entrypoint.sh"
-MIGRATION_FILE="/app/migration_seed_channels_legacy.sql"
+MIGRATION_FILE="/app/migration_seed_channels.sql"
 
 db_initialized() {
-    if [ ! -f "$DB_FILE" ]; then
-        return 1
+    if [ -f "$DB_FILE" ]; then
+        if sqlite3 "$DB_FILE" "SELECT 1 FROM sqlite_master WHERE type='table' AND name='channels' LIMIT 1" 2>/dev/null | grep -q 1; then
+            return 0
+        fi
     fi
-
-    if sqlite3 "$DB_FILE" "SELECT 1 FROM sqlite_master WHERE type='table' AND name='servers' LIMIT 1" 2>/dev/null | grep -q 1; then
-        return 0
-    fi
-
     return 1
 }
 
