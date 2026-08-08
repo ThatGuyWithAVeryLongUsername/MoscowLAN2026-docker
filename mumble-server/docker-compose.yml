@@ -1,0 +1,15 @@
+services:
+  mumble-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mumble-server
+    volumes:
+      - mumble-data:/data
+    ports:
+      - "64738:64738/tcp"
+      - "64738:64738/udp"
+    restart: unless-stopped
+
+volumes:
+  mumble-data:

@@ -1,5 +1,5 @@
 version: "3.7"
-services: 
+services:
   # Server 1
   MskLanSrv1:
     image: ghcr.io/melkortf/tf2-competitive
@@ -81,9 +81,11 @@ services:
     ports:
       - "8080:80"
 
-  # Mumble 
+  # Mumble
   mumble-server:
-    image: mumblevoip/mumble-server:latest
+    build:
+      context: ./mumble-server
+      dockerfile: Dockerfile
     container_name: mumble-server
     hostname: mumble-server
     restart: on-failure
