@@ -67,10 +67,30 @@ services:
       - CLIENT_PORT=27046
       - STEAM_PORT=27048
       - STV_PORT=27050
-    command: "+sv_pure 2 +map mge_training_v8_beta4b +maxplayers 24 +sv_lan 1 +sm_map_download_base http://changeme:8080/maps +mp_timelimit 0"
+    command: "+sv_pure 2 +map mge_oihguv_sucks_a12 +maxplayers 24 +sv_lan 1 +sm_map_download_base http://changeme:8080/maps +mp_timelimit 0"
     volumes:
       - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
     network_mode: host
+
+
+  # Ultiduo
+  MskLanUD:
+    image: ghcr.io/melkortf/tf2-mge
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - SERVER_HOSTNAME=[MoscowLAN] Ultiduo
+      - STV_NAME=[MoscowTV] Ultiduo
+      - PORT=27055
+      - CLIENT_PORT=27056
+      - STEAM_PORT=27058
+      - STV_PORT=27060
+    command: "+sv_pure 2 +map cp_badlands +maxplayers 4 +sv_lan 1 +sm_map_download_base http://changeme:8080/maps +mp_timelimit 0"
+    volumes:
+      - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
+    network_mode: host
+
 
   # FastDL
   fastdl:
