@@ -1,0 +1,3 @@
+:8081 {
+    reverse_proxy https://logs.tf:443
+}

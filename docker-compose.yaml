@@ -1,4 +1,3 @@
-version: "3.7"
 services:
   # Server 1
   MskLanSrv1:
@@ -8,7 +7,7 @@ services:
       - .env
     environment:
       - SERVER_HOSTNAME=[MoscowLAN] Server 1
-      - STV_NAME=[MoscowTV] 1
+      - STV_NAME=[SourceTV] 1
       - PORT=27015
       - CLIENT_PORT=27016
       - STEAM_PORT=27018
@@ -26,7 +25,7 @@ services:
       - .env
     environment:
       - SERVER_HOSTNAME=[MoscowLAN] Server 2
-      - STV_NAME=[MoscowTV] 2
+      - STV_NAME=[SourceTV] 2
       - PORT=27025
       - CLIENT_PORT=27026
       - STEAM_PORT=27028
@@ -44,7 +43,7 @@ services:
       - .env
     environment:
       - SERVER_HOSTNAME=[MoscowLAN] Server 3
-      - STV_NAME=[MoscowTV] 3
+      - STV_NAME=[SourceTV] 3
       - PORT=27035
       - CLIENT_PORT=27036
       - STEAM_PORT=27038
@@ -53,7 +52,6 @@ services:
     volumes:
       - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
     network_mode: host
-
 
   # MGE Server
   MskLanMGE:
@@ -72,16 +70,15 @@ services:
       - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
     network_mode: host
 
-
   # Ultiduo
   MskLanUD:
-    image: ghcr.io/melkortf/tf2-mge
+    image: ghcr.io/melkortf/tf2-competitive
     restart: always
     env_file:
       - .env
     environment:
       - SERVER_HOSTNAME=[MoscowLAN] Ultiduo
-      - STV_NAME=[MoscowTV] Ultiduo
+      - STV_NAME=[SourceTV] Ultiduo
       - PORT=27055
       - CLIENT_PORT=27056
       - STEAM_PORT=27058
@@ -91,6 +88,15 @@ services:
       - ./overrides/entrypoint.sh:/home/tf2/server/entrypoint.sh:ro
     network_mode: host
 
+# Зеркало Logs.tf
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./overrides/Caddyfile:/etc/caddy/Caddyfile:ro
+    restart: unless-stopped
 
   # FastDL
   fastdl:
